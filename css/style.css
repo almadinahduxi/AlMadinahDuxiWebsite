@@ -1,0 +1,160 @@
+/* Al Madinah Duxi: hero styles. Tokens are documented in THEME.md */
+:root{
+  --bg:#ffffff;
+  --ink:#0d1f1a;
+  --muted:#5b6a65;
+  --pill:#edf1ee;
+  --panel:#f1f4f1;
+  --line:#cfd8d3;
+  --brand:#0b6b57;
+  --brand-dark:#084c3e;
+  --mint:#19b38f;
+  --gold:#c8a24a;
+  --font-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --font-body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --pad:clamp(16px,4vw,32px);
+  --nav-h:72px;
+  --section-min:560px;  /* no full-screen section is ever shorter than this */
+  --show-min:200px;     /* smallest visible height of the device panel */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:var(--nav-h);scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar{display:none}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+section[id]{scroll-margin-top:var(--nav-h)}
+
+/* Navigation */
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 10px) var(--pad) 0;pointer-events:none}
+.nav{pointer-events:auto;display:flex;gap:2px;padding:6px;border-radius:999px;background:rgba(237,241,238,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:box-shadow .3s}
+.nav.is-stuck{box-shadow:0 8px 24px rgba(13,31,26,.12)}
+.nav a{padding:9px clamp(10px,3.2vw,18px);border-radius:999px;font-size:clamp(.82rem,3.5vw,.95rem);font-weight:500;transition:background .25s,color .25s}
+.nav a:hover{background:rgba(255,255,255,.7)}
+.nav a.is-active{background:var(--bg);box-shadow:0 1px 4px rgba(13,31,26,.12)}
+
+/* Hero: fills the screen (never shorter than --section-min), clips everything below */
+.hero{
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;
+  min-height:max(100svh,var(--section-min));
+  padding-top:clamp(88px,14svh,160px);
+  overflow:hidden;
+  overflow:clip;
+}
+.hero__copy{width:100%;max-width:880px;padding:0 var(--pad);margin-bottom:clamp(20px,3.5svh,48px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:clamp(12px,2.2svh,22px)}
+.hero__title{font-family:var(--font-display);font-weight:700;font-size:clamp(2.1rem,min(8.6vw,8.5svh),5.4rem);line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
+.grad{
+  color:var(--brand);
+  background:linear-gradient(100deg,#0b6b57,#19b38f,#c8a24a,#19b38f,#0b6b57);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:flow 7s linear infinite;
+}
+@keyframes flow{to{background-position:-300% 0}}
+
+/* Typed last word (online, anywhere, easily). Sits on its own line so the layout never jumps */
+.hero__type{display:block;min-height:1.02em;color:var(--brand)}
+.hero__type::after{content:"";display:inline-block;width:.06em;height:.8em;margin-left:.06em;background:var(--mint);vertical-align:-.05em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.hero__sub{max-width:36rem;color:var(--muted);font-size:clamp(.95rem,min(3.8vw,2.6svh),1.25rem);text-wrap:balance}
+.hero__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;border:2px solid transparent;border-radius:999px;padding:13px 26px;font-weight:600;font-size:clamp(.92rem,3.6vw,1rem);transition:transform .2s,background .25s,color .25s,border-color .25s}
+.btn:active{transform:scale(.97)}
+.btn--primary{background:var(--brand);color:#fff}
+.btn--primary:hover{background:var(--brand-dark)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn--ghost:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Button morph: hovering one button turns the other into an icon circle.
+   JS measures the buttons and sets --w1, --w2, --h and --gap on .hero__actions (adds .is-morph).
+   Both widths use the same duration and easing and always change by equal and opposite amounts,
+   so the total width of the group never changes at any frame. */
+.btn__icon{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.5);transition:opacity .2s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.btn__icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn__label{transition:opacity .2s}
+.hero__actions.is-morph{flex-wrap:nowrap;gap:var(--gap);width:calc(var(--w1) + var(--w2) + var(--gap))}
+.is-morph .btn{height:var(--h);padding:0;transition:width .5s cubic-bezier(.4,0,.2,1),transform .2s,background .25s,color .25s,border-color .25s}
+.is-morph .btn--primary{width:var(--w1)}
+.is-morph .btn--ghost{width:var(--w2)}
+@media (hover:hover) and (pointer:fine){
+  .is-morph:has(.btn--primary:is(:hover,:focus-visible)) .btn--primary{width:calc(var(--w1) + var(--w2) - var(--h))}
+  .is-morph:has(.btn--primary:is(:hover,:focus-visible)) .btn--ghost{width:var(--h);background:var(--brand);border-color:var(--brand);color:#fff}
+  .is-morph:has(.btn--primary:is(:hover,:focus-visible)) .btn--ghost .btn__label{opacity:0}
+  .is-morph:has(.btn--primary:is(:hover,:focus-visible)) .btn--ghost .btn__icon{opacity:1;transform:none;transition-delay:.12s}
+  .is-morph:has(.btn--ghost:is(:hover,:focus-visible)) .btn--ghost{width:calc(var(--w1) + var(--w2) - var(--h))}
+  .is-morph:has(.btn--ghost:is(:hover,:focus-visible)) .btn--primary{width:var(--h)}
+  .is-morph:has(.btn--ghost:is(:hover,:focus-visible)) .btn--primary .btn__label{opacity:0}
+  .is-morph:has(.btn--ghost:is(:hover,:focus-visible)) .btn--primary .btn__icon{opacity:1;transform:none;transition-delay:.12s}
+}
+.hero__founder{font-size:.92rem;color:var(--muted)}
+.hero__founder strong{color:var(--ink);font-weight:600}
+
+/* Device showcase: takes all the space left under the copy.
+   Devices are placed from the panel centre and sized from the panel height (cqh), so each one
+   is cut off by the bottom of the panel and never shows its full height.
+   Outer edges are cropped by the panel too. Phone ~72% visible, side devices ~70-75%. */
+.showcase{
+  position:relative;
+  container-type:size;
+  flex:1 1 0;
+  width:min(1240px,100% - 2 * var(--pad));
+  min-height:var(--show-min);
+  background:var(--panel);
+  border-radius:clamp(22px,3vw,32px) clamp(22px,3vw,32px) 0 0;
+  overflow:hidden;
+}
+.stage{
+  position:absolute;inset:0;
+  /* widths: phone, tablet, small phone. tops: distance of each device from the panel top */
+  --wp:clamp(150px,24vw,300px);
+  --wt:clamp(240px,40vw,520px);
+  --ws:clamp(130px,20vw,260px);
+  --tp:24px;--tt:60px;--ts:90px;
+  --ot:.35;--os:.18;  /* how much of the phone width the tablet / small phone tuck behind it */
+  /* moves the whole group so it is centred in the panel (0 on phones, where the sides are cropped) */
+  --shift:calc((var(--wt) - var(--ws) + (var(--os) - var(--ot)) * var(--wp)) / 2);
+}
+@supports (height:1cqh){
+  .stage{
+    --wp:min(clamp(150px,24vw,300px),66cqh);
+    --wt:min(clamp(240px,36vw,520px),150cqh);
+    --ws:min(clamp(130px,20vw,260px),60cqh);
+    --tp:6cqh;--tt:16cqh;--ts:26cqh;
+  }
+}
+.device{position:absolute;margin:0;opacity:0;animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
+.device img{width:100%}
+.device--center{width:var(--wp);top:var(--tp);left:calc(50% - var(--wp) / 2 + var(--shift));z-index:3;animation-delay:.15s}
+.device--left{width:var(--wt);top:var(--tt);left:calc(50% - var(--wp) / 2 + var(--wp) * var(--ot) - var(--wt) + var(--shift));z-index:1;animation-delay:.3s}
+.device--right{width:var(--ws);top:var(--ts);left:calc(50% + var(--wp) / 2 - var(--wp) * var(--os) + var(--shift));z-index:2;animation-delay:.45s}
+@keyframes rise{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
+
+/* Shown only while an image file is missing */
+.device.is-missing{border:2px dashed var(--line);border-radius:26px;display:grid;place-items:center;color:var(--muted);font-size:.8rem;text-align:center;padding:8px}
+.device.is-missing img{display:none}
+.device.is-missing::after{content:"Add images/" attr(data-label)}
+.device--center.is-missing{aspect-ratio:813/1595}
+.device--left.is-missing{aspect-ratio:1362/966}
+.device--right.is-missing{aspect-ratio:809/1590}
+
+@media (max-width:640px){
+  .stage{--wp:50vw;--wt:62vw;--ws:40vw;--tt:110px;--ts:90px;--ot:.18;--shift:0px}
+  @supports (height:1cqh){
+    .stage{--wp:min(50vw,66cqh);--wt:min(62vw,170cqh);--ws:min(40vw,56cqh);--tt:46cqh;--ts:30cqh}
+  }
+}
+@media (max-width:360px){
+  .btn{padding:12px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .grad{animation:none;background-position:0 0}
+  .hero__type::after{animation:none}
+  .device{animation:none;opacity:1}
+  .is-morph .btn,.btn__icon,.btn__label{transition:none}
+  html{scroll-behavior:auto}
+}
