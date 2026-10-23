@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Al Madinah Duxi | Online Quran Academy</title>
 <meta name="description" content="Al Madinah Duxi is an online Quran academy founded by Al Sheikh Muhammad Ali Chishti. Live classes in Tajweed, Nazra and Hifz.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f7f5ef">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./css/style.css">
+<link rel="shortcut icon" href="./images/Madni-favicon.ico" type="image/x-icon">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,9 +28,16 @@
 </head>
 <body>
 
+<!-- Fixed pencil-sketch background (images/Madni_background.webp), anchored to the right so the green dome stays fully visible -->
+<div class="backdrop" aria-hidden="true">
+  <img src="./images/Madni_background.webp" alt="" width="1640" height="959" decoding="async" fetchpriority="low">
+</div>
+
 <header class="nav-wrap">
   <nav class="nav" aria-label="Main navigation">
-    <a href="#home" data-scroll="#home">Home</a>
+    <button class="logo" type="button" data-scroll="#home" data-label="images/logo.webp" aria-label="Al Madinah Duxi, back to top">
+      <img src="./images/Madni-logo.webp" alt="" width="256" height="256">
+    </button>
     <a href="#about" data-scroll="#about">About</a>
     <a href="#courses" data-scroll="#courses">Courses</a>
     <a href="#founder" data-scroll="#founder">Founder</a>
@@ -37,6 +45,8 @@
 </header>
 
 <main>
+
+  <!-- 1. Hero -->
   <section class="hero" id="home" aria-labelledby="hero-title">
     <div class="hero__copy">
       <h1 class="hero__title" id="hero-title" aria-label="Learn the Holy Quran online">
@@ -73,7 +83,8 @@
       </div>
     </div>
   </section>
-    <!-- Courses -->
+
+  <!-- 2. Courses -->
   <section class="courses" id="courses" aria-labelledby="courses-title">
     <div class="courses__head">
       <p class="courses__eyebrow">Our courses</p>
@@ -84,9 +95,8 @@
     <div class="courses__inner">
 
       <!-- Stage 1: Ibtadai Qaida -->
-      <article class="foundation reveal" aria-labelledby="c1-title">
+      <article class="foundation reveal" id="course-qaida" aria-labelledby="c1-title">
         <div class="foundation__intro">
-          <span class="stage" data-stage="1" role="img" aria-label="Stage 1 of 5"><i></i><i></i><i></i><i></i><i></i></span>
           <p class="ctag">Stage 1 · Beginner</p>
           <h3 class="ctitle ctitle--xl" id="c1-title">Ibtadai Qaida</h3>
           <p class="cmean">Beginner's Quran reading primer</p>
@@ -95,28 +105,28 @@
         </div>
 
         <div class="qgrid">
-          <div class="qcard spot reveal" style="--i:1">
+          <div class="qcard spot reveal">
             <figure class="cimg" data-label="images/courses/madni-qaida.webp"><img src="./images/courses/madni-qaida.webp" alt="Student learning Madni Qaida online" width="1280" height="720" loading="lazy" decoding="async"></figure>
             <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6.5C10.5 5.3 8.4 4.7 5 4.7v12.6c3.4 0 5.5.6 7 1.8 1.5-1.2 3.6-1.8 7-1.8V4.7c-3.4 0-5.5.6-7 1.8Z"/><path d="M12 6.5v12.6"/></svg></span>
             <h4 class="qtitle">Madni Qaida</h4>
             <p class="cmean">The Madani primer</p>
             <p class="cdesc">Lessons arranged in a gradual order that builds smooth, confident reading flow.</p>
           </div>
-          <div class="qcard spot reveal" style="--i:2">
-            <figure class="cimg" data-label="images/courses/baghdadi-qaida.webp"><img src="./images/courses/baghdadi.webp" alt="Student learning Baghdadi Qaida online" width="1280" height="720" loading="lazy" decoding="async"></figure>
+          <div class="qcard spot reveal">
+            <figure class="cimg" data-label="images/courses/baghdadi-qaida.webp"><img src="./images/courses/baghdadi-qaida.webp" alt="Student learning Baghdadi Qaida online" width="1280" height="720" loading="lazy" decoding="async"></figure>
             <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h9"/></svg></span>
             <h4 class="qtitle">Baghdadi Qaida</h4>
             <p class="cmean">The traditional primer</p>
             <p class="cdesc">The classic method. Learn the letter names first, then spell and join them into syllables and words.</p>
           </div>
-          <div class="qcard spot reveal" style="--i:3">
+          <div class="qcard spot reveal">
             <figure class="cimg" data-label="images/courses/norani-qaida.webp"><img src="./images/courses/norani-qaida.webp" alt="Student learning Norani Qaida online" width="1280" height="720" loading="lazy" decoding="async"></figure>
             <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.3M12 18.2v2.3M3.5 12h2.3M18.2 12h2.3M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18"/></svg></span>
             <h4 class="qtitle">Norani Qaida</h4>
             <p class="cmean">The structured primer</p>
             <p class="cdesc">Moves from single letters to joined letters, words and short ayahs, with close attention to makharij (letter sounds) and basic Tajweed.</p>
           </div>
-          <div class="qcard spot reveal" style="--i:4">
+          <div class="qcard spot reveal">
             <figure class="cimg" data-label="images/courses/ahsanul-qawaid.webp"><img src="./images/courses/ahsanul-qawaid.webp" alt="Student learning Ahsanul Qawaid online" width="1280" height="720" loading="lazy" decoding="async"></figure>
             <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4.5c3 3.6 5 6.2 5 9a5 5 0 0 1-10 0c0-2.8 2-5.4 5-9Z"/></svg></span>
             <h4 class="qtitle">Ahsanul Qawaid</h4>
@@ -133,13 +143,10 @@
 
       <!-- Stages 2 to 5 -->
       <div class="path">
-        <article class="course spot reveal" style="--i:0" aria-labelledby="c2-title">
+        <article class="course spot reveal" id="course-nazra" aria-labelledby="c2-title">
           <span class="course__num" aria-hidden="true">02</span>
           <figure class="cimg" data-label="images/courses/nazra.webp"><img src="./images/courses/nazra.webp" alt="Student reading the Quran in a Nazra class" width="1280" height="800" loading="lazy" decoding="async"></figure>
-          <div class="course__top">
-            <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.8 12S6.2 6.2 12 6.2 21.2 12 21.2 12 17.8 17.8 12 17.8 2.8 12 2.8 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
-            <span class="stage" data-stage="2" role="img" aria-label="Stage 2 of 5"><i></i><i></i><i></i><i></i><i></i></span>
-          </div>
+          <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.8 12S6.2 6.2 12 6.2 21.2 12 21.2 12 17.8 17.8 12 17.8 2.8 12 2.8 12Z"/><circle cx="12" cy="12" r="2.8"/></svg></span>
           <p class="ctag">Stage 2 · Reading</p>
           <h3 class="ctitle" id="c2-title">Nazra</h3>
           <p class="cmean">Reading the Quran by sight</p>
@@ -151,13 +158,10 @@
           </ul>
         </article>
 
-        <article class="course spot reveal" style="--i:1" aria-labelledby="c3-title">
+        <article class="course spot reveal" id="course-hifz" aria-labelledby="c3-title">
           <span class="course__num" aria-hidden="true">03</span>
-          <figure class="cimg" data-label="images/courses/hifz-tajweed.webp"><img src="./images/courses/hifz-tajweed.webp" alt="Student reading the Quran in a Hifz with tajweed class" width="1280" height="800" loading="lazy" decoding="async"></figure>
-          <div class="course__top">
-            <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h.01M7 9v6M10 6v12M13 9v6M16 7v10M19 11v2"/></svg></span>
-            <span class="stage" data-stage="3" role="img" aria-label="Stage 3 of 5"><i></i><i></i><i></i><i></i><i></i></span>
-          </div>
+          <figure class="cimg" data-label="images/courses/hifz-tajweed.webp"><img src="./images/courses/hifz-tajweed.webp" alt="Student memorising the Quran in a Hifz with Tajweed class" width="1280" height="800" loading="lazy" decoding="async"></figure>
+          <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h.01M7 9v6M10 6v12M13 9v6M16 7v10M19 11v2"/></svg></span>
           <p class="ctag">Stage 3 · Memorisation</p>
           <h3 class="ctitle" id="c3-title">Hifz with Tajweed</h3>
           <p class="cmean">Memorisation with correct recitation</p>
@@ -169,13 +173,10 @@
           </ul>
         </article>
 
-        <article class="course spot reveal" style="--i:2" aria-labelledby="c4-title">
+        <article class="course spot reveal" id="course-rules" aria-labelledby="c4-title">
           <span class="course__num" aria-hidden="true">04</span>
-          <figure class="cimg" data-label="images/courses/islamic-rules.webp"><img src="./images/courses/nazra.webp" alt="Student reading the Quran in a Nazra class" width="1280" height="800" loading="lazy" decoding="async"></figure>
-          <div class="course__top">
-            <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5h10A1.5 1.5 0 0 1 18.5 6v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 18V6A1.5 1.5 0 0 1 7 4.5Z"/><path d="m9 10 1.5 1.5 3-3M9 15h6"/></svg></span>
-            <span class="stage" data-stage="4" role="img" aria-label="Stage 4 of 5"><i></i><i></i><i></i><i></i><i></i></span>
-          </div>
+          <figure class="cimg" data-label="images/courses/islamic-rules.webp"><img src="./images/courses/islamic-rules.webp" alt="Student learning the rules of daily worship in an Islamic Rules class" width="1280" height="800" loading="lazy" decoding="async"></figure>
+          <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5h10A1.5 1.5 0 0 1 18.5 6v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 18V6A1.5 1.5 0 0 1 7 4.5Z"/><path d="m9 10 1.5 1.5 3-3M9 15h6"/></svg></span>
           <p class="ctag">Stage 4 · Understanding</p>
           <h3 class="ctitle" id="c4-title">Islamic Rules</h3>
           <p class="cmean">Essential rules of daily worship</p>
@@ -187,12 +188,10 @@
           </ul>
         </article>
 
-        <article class="course spot reveal" style="--i:3" aria-labelledby="c5-title">
+        <article class="course spot reveal" id="course-hadith" aria-labelledby="c5-title">
           <span class="course__num" aria-hidden="true">05</span>
-          <div class="course__top">
-            <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5h14A1.5 1.5 0 0 1 20.5 7v8a1.5 1.5 0 0 1-1.5 1.5h-8L7 20v-3.5H5A1.5 1.5 0 0 1 3.5 15V7A1.5 1.5 0 0 1 5 5.5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span>
-            <span class="stage" data-stage="5" role="img" aria-label="Stage 5 of 5"><i></i><i></i><i></i><i></i><i></i></span>
-          </div>
+          <figure class="cimg" data-label="images/courses/hadith-lessons.webp"><img src="./images/courses/hadith-lessons.webp" alt="Student studying Hadith in an online lesson" width="1280" height="800" loading="lazy" decoding="async"></figure>
+          <span class="cicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5h14A1.5 1.5 0 0 1 20.5 7v8a1.5 1.5 0 0 1-1.5 1.5h-8L7 20v-3.5H5A1.5 1.5 0 0 1 3.5 15V7A1.5 1.5 0 0 1 5 5.5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg></span>
           <p class="ctag">Stage 5 · Wisdom</p>
           <h3 class="ctitle" id="c5-title">Lessons of Hadith</h3>
           <p class="cmean">Sayings and teachings of the Prophet Muhammad ﷺ</p>
@@ -211,8 +210,8 @@
       </div>
     </div>
   </section>
-  <!-- PASTE inside <main>, right after the hero </section> -->
-  <!-- PASTE inside <main>, right after the hero </section> (replaces the previous version) -->
+
+  <!-- 3. Process path -->
   <section class="process" id="process" aria-labelledby="process-title">
     <div class="process__head">
       <p class="process__eyebrow">How it works</p>
@@ -310,7 +309,7 @@
     </div>
   </section>
 
-    <!-- Admission and booking -->
+  <!-- 4. Admission (the class time is chosen inside the form, in the booking popup) -->
   <section class="admission" id="admission" aria-labelledby="admission-title">
     <div class="admission__head">
       <p class="admission__eyebrow">Admission and booking</p>
@@ -374,7 +373,7 @@
 
             <div class="field field--full">
               <span class="field__label" id="l-time">Class day and time <span class="field__opt">(optional)</span></span>
-              <button class="timepick" type="button" data-booking-open data-slot-row aria-describedby="l-time">
+              <button class="timepick" type="button" data-booking-open data-timepick aria-describedby="l-time">
                 <span class="timepick__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg></span>
                 <span class="timepick__text">
                   <span class="timepick__label">Booking calendar</span>
@@ -400,32 +399,64 @@
           </div>
         </form>
       </div>
-
-      <aside class="bookcard reveal" style="--i:1" aria-labelledby="book-title">
-        <p class="ctag">Booking</p>
-        <h3 class="ctitle" id="book-title">Book a class time</h3>
-        <p class="cdesc">Pick a day and time that suits your family on the booking calendar. Your choice is added to the admission form automatically.</p>
-        <ol class="steps">
-          <li>Open the booking calendar</li>
-          <li>Choose a day and a time</li>
-          <li>Press “Apply for admission” to send it on WhatsApp</li>
-        </ol>
-        <div class="bookcard__slot" data-slot-row>
-          <span class="bookcard__label">Selected time</span>
-          <span class="bookcard__value" data-slot-text>Not chosen yet</span>
-        </div>
-        <button class="btn btn--light btn--block" type="button" data-booking-open>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>
-          <span class="btn__label">Open booking calendar</span>
-        </button>
-      </aside>
     </div>
   </section>
-  <!-- OPTIONAL nav link: <a href="#process" data-scroll="#process">Journey</a> -->
 
-  <!-- Next sections go here. Give each one an id that matches a nav link: about, courses, founder -->
+  <!-- Next sections go here. Give each one an id that matches a nav link: about, founder -->
 </main>
-<!-- Booking container: bottom sheet on phones, popup on large screens -->
+
+<!-- Footer: every link is a button that scrolls with JS (data-scroll), no hyperlinks -->
+<footer class="footer" aria-labelledby="footer-title">
+  <div class="footer__inner">
+    <div class="footer__grid">
+
+      <div class="footer__brand">
+        <div class="footer__name">
+          <button class="logo" type="button" data-scroll="#home" data-label="images/logo.webp" aria-label="Back to top">
+            <img src="./images/logo.webp" alt="" width="256" height="256" loading="lazy" decoding="async">
+          </button>
+          <p class="footer__title" id="footer-title">Al Madinah Duxi</p>
+        </div>
+        <p class="footer__text">An online Quran academy. Live one-to-one classes in Tajweed, Nazra and Hifz for children and adults.</p>
+        <button class="btn btn--light" type="button" data-scroll="#admission"><span class="btn__label">Apply for admission</span></button>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-explore">
+        <h2 class="footer__head" id="footer-explore">Explore</h2>
+        <ul class="footer__list">
+          <li><button class="flink" type="button" data-scroll="#home">Home</button></li>
+          <li><button class="flink" type="button" data-scroll="#about">About</button></li>
+          <li><button class="flink" type="button" data-scroll="#courses">Courses</button></li>
+          <li><button class="flink" type="button" data-scroll="#process">How it works</button></li>
+          <li><button class="flink" type="button" data-scroll="#founder">Founder</button></li>
+          <li><button class="flink" type="button" data-scroll="#admission">Admission</button></li>
+        </ul>
+      </nav>
+
+      <nav class="footer__col" aria-labelledby="footer-courses">
+        <h2 class="footer__head" id="footer-courses">Courses</h2>
+        <ul class="footer__list">
+          <li><button class="flink" type="button" data-scroll="#course-qaida">Ibtadai Qaida</button></li>
+          <li><button class="flink" type="button" data-scroll="#course-nazra">Nazra</button></li>
+          <li><button class="flink" type="button" data-scroll="#course-hifz">Hifz with Tajweed</button></li>
+          <li><button class="flink" type="button" data-scroll="#course-rules">Islamic Rules</button></li>
+          <li><button class="flink" type="button" data-scroll="#course-hadith">Lessons of Hadith</button></li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class="footer__bar">
+      <p>© <span data-year>2026</span> Al Madinah Duxi. All rights reserved.</p>
+      <p class="footer__founder">Founded by <strong>Al Sheikh Muhammad Ali Chishti</strong></p>
+      <button class="totop" type="button" data-scroll="#home" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- Booking container: bottom sheet on phones, popup on large screens. Opened from the form. -->
 <div class="booking" id="booking" role="dialog" aria-modal="true" aria-labelledby="booking-title" aria-hidden="true" inert>
   <div class="booking__backdrop" data-close></div>
   <div class="booking__panel">
