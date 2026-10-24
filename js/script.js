@@ -49,29 +49,40 @@
   function initNav() {
     var nav = $('.nav');
 
+    /* Every element with data-scroll="#id" scrolls to that element. No hash is added to the address bar. */
     doc.addEventListener('click', function (e) {
       var trigger = e.target.closest('[data-scroll]');
       if (!trigger) return;
-      var selector = trigger.getAttribute('data-scroll');
-      var target = $(selector);
-      if (!target) return;                      /* section not built yet */
+      var target = $(trigger.getAttribute('data-scroll'));
+      if (!target) return;
       e.preventDefault();
       target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      if (history.replaceState) history.replaceState(null, '', selector);
+      if (trigger.hasAttribute('data-focus')) target.focus({ preventScroll: true });
     });
 
     function stick() { if (nav) nav.classList.toggle('is-stuck', window.scrollY > 8); }
     onScroll(stick);
     stick();
 
-    /* Highlight the link of the section in the middle of the screen (the logo is not a link, so Home has none) */
-    var links = $$('.nav a[data-scroll]');
+    /* The active link gets a sliding pill; Home has no link, so the pill hides there */
+    var links = $$('.nav__link', nav);
     var sections = $$('main section[id]');
 
+    function movePill() {
+      var a = $('.nav__link.is-active', nav);
+      nav.classList.toggle('has-active', !!a);
+      if (!a) return;
+      nav.style.setProperty('--bx', a.offsetLeft + 'px');
+      nav.style.setProperty('--bw', a.offsetWidth + 'px');
+    }
+
     function setActive(id) {
-      links.forEach(function (a) {
-        a.classList.toggle('is-active', a.getAttribute('data-scroll') === '#' + id);
+      links.forEach(function (b) {
+        var on = b.getAttribute('data-scroll') === '#' + id;
+        b.classList.toggle('is-active', on);
+        if (on) b.setAttribute('aria-current', 'location'); else b.removeAttribute('aria-current');
       });
+      movePill();
     }
 
     if ('IntersectionObserver' in window && sections.length) {
@@ -82,6 +93,8 @@
       }, { rootMargin: '-45% 0px -50% 0px' });
       sections.forEach(function (s) { io.observe(s); });
     }
+    onResize(movePill);
+    onFonts(movePill);
     setActive('home');
   }
 
@@ -218,7 +231,8 @@
       [0.55, 5.20], [0.61, 5.35], [0.74, 5.41], [0.90, 5.44], [1.06, 5.55]
     ];
 
-    var total = 0, marks = [], target = 0, cur = 0, raf = 0, last = 0, builtWidth = 0;
+    var total = 0, marks = [], target = 0, cur = 0, raf = 0, last = 0, builtWidth = 0, built = false;
+    var N = 900, px = [], py = [];   /* the line is sampled once into these arrays, so scrolling never calls getPointAtLength */
 
     /* Smooth curve through points; handle length follows segment length so nothing overshoots */
     function smooth(p) {
@@ -306,17 +320,21 @@
         }
       });
 
-      /* path length at which each step sits */
-      var S = 1200;
+      /* sample the line once, then find the path length at which each step sits with plain maths */
+      px.length = 0; py.length = 0;
+      for (var s = 0; s <= N; s++) {
+        var q = line.getPointAtLength(total * s / N);
+        px.push(q.x); py.push(q.y);
+      }
       marks = pos.map(function (p) {
         var best = 0, bd = Infinity;
-        for (var s = 0; s <= S; s++) {
-          var q = line.getPointAtLength(total * s / S);
-          var dd = (q.x - p[0]) * (q.x - p[0]) + (q.y - p[1]) * (q.y - p[1]);
-          if (dd < bd) { bd = dd; best = s; }
+        for (var k = 0; k <= N; k++) {
+          var dx = px[k] - p[0], dy = py[k] - p[1], dd = dx * dx + dy * dy;
+          if (dd < bd) { bd = dd; best = k; }
         }
-        return total * best / S;
+        return total * best / N;
       });
+      built = true;
 
       readTarget();
       cur = target;
@@ -331,8 +349,9 @@
     function render() {
       var len = cur * total;
       line.style.strokeDashoffset = total - len;
-      var pt = line.getPointAtLength(len);
-      head.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
+      var f = total ? len / total * N : 0, i = Math.min(Math.floor(f), N - 1), t = f - i;
+      var hx = px[i] + (px[i + 1] - px[i]) * t, hy = py[i] + (py[i + 1] - py[i]) * t;
+      head.setAttribute('transform', 'translate(' + hx.toFixed(1) + ' ' + hy.toFixed(1) + ')');
       nodes.forEach(function (node, j) {
         node.classList.toggle('is-on', len >= marks[j] - 20);
       });
@@ -357,9 +376,28 @@
     });
 
     /* Rebuild only when the width really changes (phone address bars resize the height while scrolling) */
-    onResize(function () { if (stage.clientWidth !== builtWidth) build(); });
-    onFonts(build);
-    build();
+    onResize(function () { if (built && stage.clientWidth !== builtWidth) build(); });
+
+    /* The path is built only when its section is about to appear (never during page load).
+       On phones a loader shows meanwhile, for at least 0.7s so it never flashes. */
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      var t0 = Date.now();
+      (window.requestIdleCallback || function (f) { setTimeout(f, 60); })(function () {
+        safe('process build', build);
+        setTimeout(function () { stage.classList.add('is-ready'); }, reduceMotion ? 0 : Math.max(0, 700 - (Date.now() - t0)));
+      }, { timeout: 400 });
+    }
+    if ('IntersectionObserver' in window) {
+      var sio = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { sio.disconnect(); start(); }
+      }, { rootMargin: '400px 0px' });
+      sio.observe(stage);
+    } else {
+      start();
+    }
   }
 
   /* ===== Admission form, booking container and WhatsApp link =====
@@ -662,6 +700,32 @@
     renderSaved();
   }
 
+  /* ===== Animations run only while on screen (see [data-live] in style.css) ===== */
+  function initLive() {
+    var items = $$('[data-live]');
+    if (!items.length || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.target.classList.toggle('is-live', en.isIntersecting); });
+    }, { rootMargin: '120px 0px' });
+    items.forEach(function (el) { io.observe(el); });
+    root.classList.add('js-live');
+  }
+
+  /* ===== Back-to-top ring fills as you scroll ===== */
+  function initTopRing() {
+    var ring = $('.totop__ring');
+    if (!ring) return;
+    var C = 2 * Math.PI * 20;
+    ring.style.strokeDasharray = C;
+    function paint() {
+      var max = Math.max(1, root.scrollHeight - window.innerHeight);
+      ring.style.strokeDashoffset = C * (1 - clamp(window.scrollY / max, 0, 1));
+    }
+    onScroll(paint);
+    onResize(paint);
+    paint();
+  }
+
   /* ===== Footer year ===== */
   function initYear() {
     $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
@@ -675,5 +739,7 @@
   safe('spotlight', initSpotlight);
   safe('process path', initProcess);
   safe('admission and booking', initAdmission);
+  safe('live animations', initLive);
+  safe('back to top ring', initTopRing);
   safe('footer year', initYear);
 })();
